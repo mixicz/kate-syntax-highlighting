@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+
+<language name="PlantUML" version="1.0" kateversion="2.4" section="Markup" extensions="*.plantuml;*.puml;*.pu" author="Miroslav Maiksnar" license="MIT" priority="5">
+
+    <highlighting>
+        <list name="keywords">
+            <item>activate</item>
+            <item>again</item>
+            <item>alt</item>
+            <item>as</item>
+            <item>bottom</item>
+            <item>box</item>
+            <item>else</item>
+            <item>end</item>
+            <item>endif</item>
+            <item>endlegend</item>
+            <item>group</item>
+            <item>if</item>
+            <item>left</item>
+            <item>legend</item>
+            <item>note</item>
+            <item>of</item>
+            <item>over</item>
+            <item>right</item>
+            <item>skinparam</item>
+            <item>split</item>
+            <item>start</item>
+            <item>stop</item>
+            <item>then</item>
+            <item>top</item>
+            <item>title</item>
+        </list>
+        <list name="objects">
+            <item>actor</item>
+            <item>agent</item>
+            <item>artifact</item>
+            <item>boundary</item>
+            <item>card</item>
+            <item>cloud</item>
+            <item>component</item>
+            <item>control</item>
+            <item>database</item>
+            <item>entity</item>
+            <item>file</item>
+            <item>folder</item>
+            <item>frame</item>
+            <item>interface</item>
+            <item>node</item>
+            <item>package</item>
+            <item>participant</item>
+            <item>queue</item>
+            <item>rectangle</item>
+            <item>storage</item>
+            <item>usecase</item>
+        </list>
+        <contexts>
+            <context attribute="Normal Text" lineEndContext="#stay" name="start" >
+                <StringDetect String="@startuml" attribute="Keyword" context="plantuml" />
+            </context>
+            
+            <context attribute="Normal Text" lineEndContext="#stay" name="plantuml" >
+                <keyword attribute="Keyword" context="#stay" String="keywords" />
+                <keyword attribute="Object" context="#stay" String="objects" />
+                <Detect2Chars attribute="Object" context="#stay" char="(" char1=")" />
+                <DetectChar attribute="String" context="string" char="&quot;" />
+                <Detect2Chars attribute="Operator" context="stringcolon" char=" " char1=":" />
+<!--                 <StringDetect attribute="Keyword" context="stringcolon" string="alt" /> -->
+                <DetectChar attribute="Object" context="component" char="[" />
+                <DetectChar attribute="Comment" context="singlelinecomment" char="'" />
+                <Detect2Chars attribute="Comment" context="comment" char="/" char1="'" beginRegion="comment" />
+                <DetectChar attribute="Preprocessor" context="preprocessor" char="!" firstNonSpace="true" />
+                <StringDetect attribute="Keyword" context="#pop" string="@enduml" />
+                <RegExpr attribute="XML" context="xml" String="&lt;/?[a-zA-Z]+" />
+                <RegExpr attribute="Operator" context="#stay" String="[&lt;&gt;()x]*[.=-]((left|right|up|down)?[.=-])?[&lt;&gt;()x]?" />
+                <RegExpr attribute="Color" context="#stay" String="#[a-zA-Z0-9]+" />
+                <IncludeRules context="preprocessor" />
+            </context>
+
+            <context attribute="String" lineEndContext="#stay" name="string" >
+                <IncludeRules context="stringcolon" />
+                <DetectChar attribute="String" context="#pop" char="&quot;" />
+            </context>
+            <context attribute="String" lineEndContext="#pop" name="stringcolon" >
+                <Detect2Chars attribute="SpecialChar" context="#stay" char="\" char1="n" />
+                <IncludeRules context="preprocessorCommon" />
+            </context>
+            <context attribute="Object" lineEndContext="#stay" name="component" >
+                <DetectChar attribute="Object" context="#pop" char="]" />
+            </context>
+            <context attribute="XML" lineEndContext="#stay" name="xml" >
+                <DetectChar attribute="XML" context="#pop" char="&gt;" />
+            </context>
+            <context name="comment" attribute="Comment" lineEndContext="#stay">
+                <Detect2Chars attribute="Comment" context="#pop" char="'" char1="/" endRegion="comment" />
+            </context>
+            <context name="singlelinecomment" attribute="Comment" lineEndContext="#pop">
+            </context>
+            <context name="preprocessor" attribute="Preprocessor" lineEndContext="#pop">
+                <DetectChar attribute="String" context="string" char="&quot;" />
+                <IncludeRules context="preprocessorCommon" />
+            </context>
+            <context name="preprocessorCommon" attribute="Preprocessor" lineEndContext="#pop">
+                <RegExpr attribute="Function" context="#stay" String="\$[a-zA-Z_][a-zA-Z0-9_]*(?=\()" />
+                <RegExpr attribute="Variable" context="#stay" String="\$[a-zA-Z_][a-zA-Z0-9_]*" />
+            </context>
+        </contexts>
+        <itemDatas>
+            <itemData name="Normal Text" defStyleNum="dsNormal" />
+            <itemData name="Keyword" defStyleNum="dsKeyword" />
+            <itemData name="Object" defStyleNum="dsDataType" />
+            <itemData name="String" defStyleNum="dsString" />
+            <itemData name="SpecialChar" defStyleNum="dsSpecialChar" />
+            <itemData name="XML" defStyleNum="dsExtension" />
+            <itemData name="Comment" defStyleNum="dsComment" />
+            <itemData name="Operator" defStyleNum="dsOperator" />
+            <itemData name="Color" defStyleNum="dsConstant" />
+            <itemData name="Preprocessor" defStyleNum="dsPreprocessor" />
+            <itemData name="Variable" defStyleNum="dsVariable" />
+            <itemData name="Function" defStyleNum="dsFunction" />
+            <itemData name="ControlFlow" defStyleNum="dsControlFlow" />
+        </itemDatas>
+    </highlighting>
+    <general>
+        <comments>
+            <comment name="singleLine" start="'" />
+            <comment name="multiLine" start="/'" end="'/" region="comment" />
+        </comments>
+    </general>
+</language>
+
+<!-- 
+<highlighting>
+
+<list name="keywords">
+    <item>folder</item>
+    <item>frame</item>
+    <item>node</item>
+    <item>database</item>
+    <item>legend</item>
+    <item>in</item>
+    <item>as</item>
+    <item>is</item>
+    <item>scoped</item>
+    <item>not</item>
+    <item>recursive</item>
+    <item>ignore</item>
+    <item>missing</item>
+    <item>with</item>
+    <item>without</item>
+    <item>context</item>
+    <item>pluralize</item>
+    <item>do</item>
+    <item>continue</item>
+    <item>break</item>
+</list>
+
+<list name="blocktags">
+    <item>for</item>
+    <item>block</item>
+    <item>if</item>
+    <item>else</item>
+    <item>elif</item>
+    <item>macro</item>
+    <item>filter</item>
+    <item>call</item>
+    <item>raw</item>
+    <item>trans</item>
+    <item>with</item>
+    <item>autoescape</item>
+</list>
+
+<list name="blockdividers">
+    <item>else</item>
+    <item>elif</item>
+</list>
+
+<list name="endblocktags">
+    <item>end</item>
+    <item>endfor</item>
+    <item>endblock</item>
+    <item>endif</item>
+    <item>endmacro</item>
+    <item>endfilter</item>
+    <item>endcall</item>
+    <item>endraw</item>
+    <item>endtrans</item>
+    <item>endwith</item>
+    <item>endautoescape</item>
+</list>
+
+<contexts>
+
+<context name="Start" attribute="Normal Text" lineEndContext="#stay">
+    <IncludeRules context="FindJinja" />
+</context>
+
+<context name="FindJinja" attribute="Normal Text" lineEndContext="#stay">
+    <Detect2Chars attribute="Print delimiter" context="PrintExpression" char="{" char1="{" />
+    <Detect2Chars attribute="Block delimiter" context="Block" char="{" char1="%" />
+    <DetectChar char="%" attribute="Line statement prefix" firstNonSpace="true" context="LineStatement" />
+    <Detect2Chars attribute="Comment delimiter" context="JinjaSingleLineComment" char="'" />
+    <Detect2Chars attribute="Comment delimiter" context="Comment" char="/" char1="'" beginRegion="comment" />
+</context>
+
+
+
+<context name="PrintExpression" attribute="Normal Text" lineEndContext="#stay">
+    <Detect2Chars attribute="Print delimiter" context="#pop#pop" char="}" char1="}" />
+    <DetectChar attribute="Filter separator" context="#stay" char="|" />
+    <IncludeRules context="##Python" />
+</context>
+
+
+<context name="Block" attribute="Normal Text" lineEndContext="#stay">
+    <Detect2Chars attribute="Block delimiter" context="#pop#pop" char="%" char1="}" />
+    <keyword context="#stay" attribute="Keyword" String="keywords" />
+    <keyword context="#stay" attribute="Keyword" String="blockdividers" endRegion="jinjablock" beginRegion="jinjablock" />
+    <keyword context="#stay" attribute="Keyword" String="blocktags" beginRegion="jinjablock" />
+    <keyword context="#stay" attribute="Keyword" String="endblocktags" endRegion="jinjablock" />
+    <IncludeRules context="##Python" />
+</context>
+
+<context name="LineStatement" attribute="Normal Text" lineEndContext="#pop#pop">
+    <keyword context="#stay" attribute="Keyword" String="keywords" />
+    <keyword context="#stay" attribute="Keyword" String="blockdividers" endRegion="jinjablock" beginRegion="jinjablock" />
+    <keyword context="#stay" attribute="Keyword" String="blocktags" beginRegion="jinjablock" />
+    <keyword context="#stay" attribute="Keyword" String="endblocktags" endRegion="jinjablock" />
+    <IncludeRules context="##Python" />
+</context>
+
+<context name="Comment" attribute="Comment" lineEndContext="#stay">
+    <Detect2Chars attribute="Comment delimiter" context="#pop#pop" char="'" char1="/" endRegion="comment" />
+</context>
+
+<context name="JinjaSingleLineComment" attribute="Comment" lineEndContext="#pop#pop">
+</context>
+
+</contexts>
+
+<itemDatas>
+    <itemData name="Normal Text" defStyleNum="dsNormal" />
+    <itemData name="Block delimiter" defStyleNum="dsOthers" />
+    <itemData name="Print delimiter" defStyleNum="dsOthers" />
+    <itemData name="Filter separator" defStyleNum="dsOthers" />
+    <itemData name="Line statement prefix" defStyleNum="dsOthers" />
+    <itemData name="Keyword" defStyleNum="dsKeyword" />
+    <itemData name="Comment delimiter" defStyleNum="dsComment" />
+    <itemData name="Comment" defStyleNum="dsComment" />
+</itemDatas>
+
+</highlighting>
+<general>
+    <comments>
+        <comment name="singleLine" start="'" />
+        <comment name="multiLine" start="/'" end="'/" region="comment" />
+    </comments>
+</general>
+</language>
+    -->
